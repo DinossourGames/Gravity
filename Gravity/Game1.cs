@@ -1,13 +1,9 @@
 ﻿using Gravity.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace Gravity
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -20,7 +16,6 @@ namespace Gravity
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 720;
             IsMouseVisible = true;
