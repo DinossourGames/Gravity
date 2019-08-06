@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Gravity.Scenes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -12,6 +13,8 @@ namespace Gravity
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D bg;
+        private Scene currentScene;
+        private Scene nextScene;
 
         public Game1()
         {
@@ -24,48 +27,42 @@ namespace Gravity
             graphics.ApplyChanges();
         }
 
+        public void ChangeScene(Scene scene)
+        {
+            nextScene = scene;
+        }
 
         protected override void Initialize()
         {
-
-
             base.Initialize();
         }
 
-       
         protected override void LoadContent()
         {
-
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            bg = Content.Load<Texture2D>("Sprites/bg_menu");
-            
+            currentScene = new MenuScene(Content, graphics.GraphicsDevice, this);
         }
 
-    
-        protected override void UnloadContent(){}
-
- 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
 
+            if (nextScene != null)
+            {
+                currentScene = nextScene;
+                nextScene = null;
+            }
 
+            currentScene.Update(gameTime);
+            currentScene.FixedUpdate(gameTime);
 
             base.Update(gameTime);
         }
 
-      
+
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-
-            spriteBatch.Draw(bg, new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), Color.White);
-
-            spriteBatch.End();
-
+            currentScene.Draw(gameTime, spriteBatch);
 
             base.Draw(gameTime);
         }
