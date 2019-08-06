@@ -45,7 +45,11 @@
   <ItemGroup>
     <Compile Include="Assets\Component.cs" />
     <Compile Include="Assets\Controls\Button.cs" />
+    <Compile Include="Assets\Scripts\NetClient.cs" />
     <Compile Include="Assets\Scripts\NetworkManager.cs" />
+    <Compile Include="Assets\Scripts\Packet.cs" />
+    <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Sprite.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
