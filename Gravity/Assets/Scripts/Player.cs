@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Gravity.Scenes;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -9,14 +10,14 @@ namespace Gravity.Assets.Scripts
     public class Player : Sprite
     {
         private Vector2 distance;
-
+        private Weapon weapon;
+        public bool FacingRight;
         public Player(Texture2D texture) : base(texture) { }
         public Player(Texture2D texture, Vector2 position) : base(texture)
         {
             Position = position;
             LinearVelocity = 200;
         }
-
 
         public override void Update(GameTime gameTime)
         {
@@ -52,15 +53,39 @@ namespace Gravity.Assets.Scripts
             else
                 Position += move * LinearVelocity * delta;
 
+            FacingRight = distance.X > 0 ? true : false;
+
+            CollisionCheck();
+
         }
 
+        private void CollisionCheck()
+        {
+            foreach (var item in GameScene.components)
+            {
+                if (item == this)
+                    continue;
+
+                if (item.Type == typeof(Weapon))
+                {
+                    var wp = (Weapon)item;
+                    if (wp.HitBox.Intersects(this.HitBox) && wp.picked == false)
+                    {
+                        weapon = wp.Pick(this);
+                    }
+                }
+
+            }
+        }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            if (distance.X > 0)
+            if (FacingRight)
                 spriteBatch.Draw(_texture, Position, null, Color.White, _rotation, Origin, scale, SpriteEffects.None, 0);
             else
                 spriteBatch.Draw(_texture, Position, null, Color.White, _rotation, Origin, scale, SpriteEffects.FlipVertically, 0);
+
+
         }
 
     }

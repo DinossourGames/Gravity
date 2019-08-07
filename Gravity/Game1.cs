@@ -8,7 +8,6 @@ namespace Gravity
     {
         public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private Texture2D bg;
         private Scene currentScene;
         private Scene nextScene;
 

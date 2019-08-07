@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Gravity.Assets;
 using Gravity.Assets.Scripts;
+using Gravity.Assets.Weapons;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,7 +17,7 @@ namespace Gravity.Scenes
     {
         private Texture2D mouseTexture;
         private Vector2 mousePos;
-        List<Component> components;
+        public static List<Component> components;
         public GameScene(ContentManager content, GraphicsDevice graphicsDevice, Game1 game) : base(content, graphicsDevice, game)
         {
         }
@@ -27,7 +28,13 @@ namespace Gravity.Scenes
             mousePos = new Vector2();
             game.IsMouseVisible = false;
             mouseTexture = content.Load<Texture2D>("Sprites/crosshair");
-            components = new List<Component>() { new Player(content.Load<Texture2D>("Sprites/player"), new Vector2(300, 300)) { scale = 5 } };
+            components = new List<Component>()
+            {
+                new Player(content.Load<Texture2D>("Sprites/player"), new Vector2(300, 300)) { scale = 5 } ,
+                new Locke(content.Load<Texture2D>("Sprites/weapon_01")) { Position = new Vector2(150,150), scale = 1 } 
+            };
+  
+
         }
 
         public override void Update(GameTime gameTime)
@@ -35,7 +42,7 @@ namespace Gravity.Scenes
             components.ForEach(i => i.Update(gameTime));
 
             var mouse = Mouse.GetState();
-
+                     
             mousePos.X = mouse.X;
             mousePos.Y = mouse.Y;
         }
