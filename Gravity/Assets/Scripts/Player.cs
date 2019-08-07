@@ -14,23 +14,43 @@ namespace Gravity.Assets.Scripts
         public Player(Texture2D texture, Vector2 position) : base(texture)
         {
             Position = position;
+            LinearVelocity = 200;
         }
 
 
         public override void Update(GameTime gameTime)
         {
-            //mouse.X - (Position.X + _texture.Width /2)
+            //Rotate the sprite to flip;
             var mouse = Mouse.GetState();
             distance.X = Position.X - mouse.X;
             distance.Y = Position.Y - mouse.Y;
             _rotation = (float)Math.Atan2(0, distance.X);
 
 
-            var direction = new Vector2((float)Math.Cos(_rotation), (float)Math.Sin(_rotation));
+            //var direction = new Vector2((float)Math.Cos(_rotation), (float)Math.Sin(_rotation));
 
-           
+            var keyboard = Keyboard.GetState();
+            var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 
+            var move = new Vector2(0, 0);
+
+            if (keyboard.IsKeyDown(Keys.D))
+                move.X = 1;
+
+            if (keyboard.IsKeyDown(Keys.A))
+                move.X = -1;
+
+            if (keyboard.IsKeyDown(Keys.W))
+                move.Y = -1;
+
+            if (keyboard.IsKeyDown(Keys.S))
+                move.Y = 1;
+
+            if (move.X != 0 && move.Y != 0)
+                Position += move * .8f * LinearVelocity * delta;
+            else
+                Position += move * LinearVelocity * delta;
 
         }
 
@@ -41,11 +61,6 @@ namespace Gravity.Assets.Scripts
                 spriteBatch.Draw(_texture, Position, null, Color.White, _rotation, Origin, scale, SpriteEffects.None, 0);
             else
                 spriteBatch.Draw(_texture, Position, null, Color.White, _rotation, Origin, scale, SpriteEffects.FlipVertically, 0);
-            
-
-            
-            
-
         }
 
     }
