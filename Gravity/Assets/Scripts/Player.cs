@@ -16,7 +16,7 @@ namespace Gravity.Assets.Scripts
         public Player(Texture2D texture, Vector2 position) : base(texture)
         {
             Position = position;
-            LinearVelocity = 200;
+            LinearVelocity = 300;
         }
 
         public override void Update(GameTime gameTime)

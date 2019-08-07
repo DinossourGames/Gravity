@@ -1,6 +1,7 @@
 ﻿using Gravity.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Gravity
 {
@@ -34,11 +35,16 @@ namespace Gravity
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            currentScene = new MenuScene(Content, graphics.GraphicsDevice, this);
+            currentScene = new GameScene(Content, graphics.GraphicsDevice, this) {  BackgroundColor = Color.Black};
         }
 
         protected override void Update(GameTime gameTime)
         {
+
+            if (Keyboard.GetState().IsKeyDown(Keys.F11))
+                graphics.ToggleFullScreen();
+
+            
 
             if (nextScene != null)
             {

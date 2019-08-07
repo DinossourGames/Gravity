@@ -16,6 +16,7 @@ namespace Gravity.Scenes
     public class GameScene : Scene
     {
         private Texture2D mouseTexture;
+        private Texture2D bg;
         private Vector2 mousePos;
         public static List<Component> components;
         public GameScene(ContentManager content, GraphicsDevice graphicsDevice, Game1 game) : base(content, graphicsDevice, game)
@@ -28,6 +29,7 @@ namespace Gravity.Scenes
             mousePos = new Vector2();
             game.IsMouseVisible = false;
             mouseTexture = content.Load<Texture2D>("Sprites/crosshair");
+            bg = content.Load<Texture2D>("Sprites/bg01");
             components = new List<Component>()
             {
                 new Player(content.Load<Texture2D>("Sprites/player"), new Vector2(300, 300)) { scale = 5 } ,
@@ -53,6 +55,7 @@ namespace Gravity.Scenes
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             graphicsDevice.Clear(BackgroundColor);
+            spriteBatch.Draw(bg, new Vector2(0, 0), Color.White);
             components.ForEach(i => i.Draw(gameTime, spriteBatch));
             spriteBatch.Draw(mouseTexture, mousePos, null, Color.White, 0, new Vector2(mouseTexture.Width / 2, mouseTexture.Height / 2), .1f, SpriteEffects.None, 0);
         }
