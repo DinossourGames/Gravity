@@ -12,24 +12,46 @@ namespace Gravity.Assets.Scripts
         private Vector2 distance;
         private Weapon weapon;
         public bool FacingRight;
-        public Player(Texture2D texture) : base(texture) { }
+        public Color Colour;
+        public bool isMain;
+        public Player(Texture2D texture) : base(texture) {
+            Type = typeof(Player);
+        }
         public Player(Texture2D texture, Vector2 position) : base(texture)
         {
+            Type = typeof(Player);
             Position = position;
             LinearVelocity = 300;
         }
 
         public override void Update(GameTime gameTime)
         {
+            isMain = ID.ToString() == GameScene.PlayerID;
+
+            //var direction = new Vector2((float)Math.Cos(_rotation), (float)Math.Sin(_rotation));
+            if (isMain)
+            {
+                Move(gameTime);
+                Look();
+            }
+
+
+            CollisionCheck();
+
+        }
+
+        private void Look()
+        {
             //Rotate the sprite to flip;
             var mouse = Mouse.GetState();
             distance.X = Position.X - mouse.X;
             distance.Y = Position.Y - mouse.Y;
             _rotation = (float)Math.Atan2(0, distance.X);
+            FacingRight = distance.X > 0 ? true : false;
+        }
 
-
-            //var direction = new Vector2((float)Math.Cos(_rotation), (float)Math.Sin(_rotation));
-
+        private void Move(GameTime gameTime)
+        {
             var keyboard = Keyboard.GetState();
             var delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
@@ -52,11 +74,6 @@ namespace Gravity.Assets.Scripts
                 Position += move * .8f * LinearVelocity * delta;
             else
                 Position += move * LinearVelocity * delta;
-
-            FacingRight = distance.X > 0 ? true : false;
-
-            CollisionCheck();
-
         }
 
         private void CollisionCheck()
@@ -81,10 +98,9 @@ namespace Gravity.Assets.Scripts
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (FacingRight)
-                spriteBatch.Draw(_texture, Position, null, Color.White, _rotation, Origin, scale, SpriteEffects.None, 0);
+                spriteBatch.Draw(_texture, Position, null, Colour, _rotation, Origin, scale, SpriteEffects.None, 0);
             else
-                spriteBatch.Draw(_texture, Position, null, Color.White, _rotation, Origin, scale, SpriteEffects.FlipVertically, 0);
-
+                spriteBatch.Draw(_texture, Position, null, Colour, _rotation, Origin, scale, SpriteEffects.FlipVertically, 0);
 
         }
 

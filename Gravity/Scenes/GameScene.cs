@@ -19,6 +19,8 @@ namespace Gravity.Scenes
         private Texture2D bg;
         private Vector2 mousePos;
         public static List<Component> components;
+        public static Player player;
+        public static string PlayerID;
         public GameScene(ContentManager content, GraphicsDevice graphicsDevice, Game1 game) : base(content, graphicsDevice, game)
         {
         }
@@ -30,10 +32,12 @@ namespace Gravity.Scenes
             game.IsMouseVisible = false;
             mouseTexture = content.Load<Texture2D>("Sprites/crosshair");
             bg = content.Load<Texture2D>("Sprites/bg01");
+            player = new Player(content.Load<Texture2D>("Sprites/player"), new Vector2(500, 300)) { scale = 5, Colour = Color.White, isMain = true };
+            PlayerID = player.ID.ToString();
             components = new List<Component>()
             {
-                new Player(content.Load<Texture2D>("Sprites/player"), new Vector2(300, 300)) { scale = 5 } ,
-                new Locke(content.Load<Texture2D>("Sprites/weapon_01")) { Position = new Vector2(150,150), scale = 1 } 
+                player ,
+                new Player(content.Load<Texture2D>("Sprites/player"), new Vector2(500, 300)) { scale = 5, Colour = Color.Red} ,
             };
   
 
@@ -47,6 +51,8 @@ namespace Gravity.Scenes
                      
             mousePos.X = mouse.X;
             mousePos.Y = mouse.Y;
+
+         
         }
         public override void FixedUpdate(GameTime gameTime)
         {

@@ -1,4 +1,5 @@
 ﻿using LiteNetLib.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,21 +8,15 @@ using System.Threading.Tasks;
 
 namespace Gravity.Assets.Scripts
 {
-    public class Packet : INetSerializable
+    public class Packet
     {
 
-        List<Player> players;
+        public List<Component> Components;
 
-
-
-        public void Deserialize(NetDataReader reader)
+        public Packet()
         {
-            throw new NotImplementedException();
+
         }
 
-        public void Serialize(NetDataWriter writer)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

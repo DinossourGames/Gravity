@@ -1,7 +1,9 @@
-﻿using Gravity.Scenes;
+﻿using Gravity.Assets.Scripts;
+using Gravity.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Gravity
 {
@@ -11,6 +13,8 @@ namespace Gravity
         SpriteBatch spriteBatch;
         private Scene currentScene;
         private Scene nextScene;
+        private string[] args;
+        private NetworkManager netManager;
 
         public Game1()
         {
@@ -20,6 +24,20 @@ namespace Gravity
             graphics.PreferredBackBufferHeight = 720;
             IsMouseVisible = true;
             graphics.ApplyChanges();
+
+
+            args = Environment.GetCommandLineArgs();
+
+            //if (args.Length > 1)
+            //{
+            //    netManager = new NetworkManager(args[1] == "0" ? true : false) { Hostname = args.Length > 2 ? args[2] : "localhost"};
+            //}
+            //else
+            //{
+            //    netManager = new NetworkManager(true);
+            //}
+
+            netManager = new NetworkManager(false) { Hostname = "localhost"};
         }
 
         public void ChangeScene(Scene scene)
@@ -35,16 +53,16 @@ namespace Gravity
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            currentScene = new GameScene(Content, graphics.GraphicsDevice, this) {  BackgroundColor = Color.Black};
+            currentScene = new GameScene(Content, graphics.GraphicsDevice, this) { BackgroundColor = Color.Black };
         }
 
         protected override void Update(GameTime gameTime)
         {
-
+            netManager.Update();
             if (Keyboard.GetState().IsKeyDown(Keys.F11))
                 graphics.ToggleFullScreen();
 
-            
+
 
             if (nextScene != null)
             {
