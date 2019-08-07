@@ -6,7 +6,7 @@ namespace Gravity
 {
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         private Texture2D bg;
         private Scene currentScene;
@@ -56,9 +56,10 @@ namespace Gravity
 
         protected override void Draw(GameTime gameTime)
         {
+            spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             currentScene.Draw(gameTime, spriteBatch);
-
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }

@@ -5,13 +5,56 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Gravity.Assets
 {
-    public abstract class Sprite : Component
+    public abstract class Sprite : Component, ICloneable
     {
-        public Sprite()
+        protected Texture2D _texture;
+
+        protected float _rotation;
+
+        protected KeyboardState _currentKey;
+
+        protected KeyboardState _previousKey;
+
+        public Vector2 Position;
+
+        public Vector2 Origin;
+
+        public Vector2 Direction;
+
+        public float RotationVelocity = 3f;
+
+        public float LinearVelocity = 4f;
+
+        public Sprite Parent;
+
+        public float LifeSpan = 0f;
+
+        public bool IsRemoved = false;
+
+        public float scale = 1;
+
+        public Rectangle HitBox { get => new Rectangle((int)Position.X, (int)Position.Y, _texture.Width, _texture.Height); }
+
+        public Sprite(Texture2D texture)
         {
+            _texture = texture;
+
+            // The default origin in the centre of the sprite
+            Origin = new Vector2(_texture.Width / 2, _texture.Height / 2);
+        }
+
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(_texture, Position, null, Color.White, _rotation, Origin, scale, SpriteEffects.None, 0);
+        }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
 
     }

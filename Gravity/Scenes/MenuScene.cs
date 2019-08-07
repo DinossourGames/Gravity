@@ -33,18 +33,16 @@ namespace Gravity.Scenes
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             graphicsDevice.Clear(BackgroundColor);
-            spriteBatch.Begin();
 
             spriteBatch.Draw(background, new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height), Color.White);
 
-            spriteBatch.End();
         }
 
         public override void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                game.ChangeScene(new GameScene(content, graphicsDevice, game));
+                game.ChangeScene(new GameScene(content, graphicsDevice, game) { BackgroundColor = Color.White});
             }
         }
         public override void FixedUpdate(GameTime gameTime)
